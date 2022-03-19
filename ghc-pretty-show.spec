@@ -6,7 +6,7 @@
 Summary:	Tools for working with derived `Show` instances and generic inspection of values
 Name:		ghc-%{pkgname}
 Version:	1.10
-Release:	1
+Release:	2
 License:	MIT
 Group:		Development/Languages
 #Source0Download: http://hackage.haskell.org/package/pretty-show
