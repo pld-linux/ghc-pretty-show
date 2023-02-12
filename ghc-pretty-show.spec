@@ -7,7 +7,7 @@ Summary:	Tools for working with derived Show instances and generic inspection of
 Summary(pl.UTF-8):	Narzędzie do pracy z instancjami wywodzącymi się z Show i ogólnym badaniem wartości
 Name:		ghc-%{pkgname}
 Version:	1.10
-Release:	2
+Release:	3
 License:	MIT
 Group:		Development/Languages
 #Source0Download: http://hackage.haskell.org/package/pretty-show
