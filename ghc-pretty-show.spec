@@ -3,7 +3,8 @@
 %bcond_without	prof	# profiling library
 #
 %define		pkgname	pretty-show
-Summary:	Tools for working with derived `Show` instances and generic inspection of values
+Summary:	Tools for working with derived Show instances and generic inspection of values
+Summary(pl.UTF-8):	Narzędzie do pracy z instancjami wywodzącymi się z Show i ogólnym badaniem wartości
 Name:		ghc-%{pkgname}
 Version:	1.10
 Release:	2
@@ -40,7 +41,16 @@ By using the library, we can parse derived Show instances into a
 generic data structure. The ppsh tool uses the library to produce
 human-readable versions of Show instances, which can be quite handy
 for debugging Haskell programs. We can also render complex generic
-values into an interactive Html page, for easier examination.
+values into an interactive HTML page, for easier examination.
+
+%description -l pl.UTF-8
+Biblioteka i program do pracy z instancjami wywodzącymi się z Show.
+Przy użyciu tej biblioteki można przetwarzać instancje wywodzące się z
+Show do ogólnych struktur danych. Narzędzie ppsh wykorzystuje
+bibiotekę do tworzenia czytelnych dla człowieka instancji Show, co
+może być przydatne do diagnostyki programów w Haskellu. Możliwe jest
+także renderowanie złożonych ogólnych wartości do interaktywnej strony
+HTML w celu łatwiejszego zbadania.
 
 %package prof
 Summary:	Profiling %{pkgname} library for GHC
@@ -101,7 +111,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/ppsh
 %{_libdir}/%{ghcdir}/package.conf.d/%{pkgname}.conf
 %dir %{_libdir}/%{ghcdir}/%{pkgname}-%{version}
-%{_libdir}/%{ghcdir}/%{pkgname}-%{version}/*.so
+%attr(755,root,root) %{_libdir}/%{ghcdir}/%{pkgname}-%{version}/*.so
 %{_libdir}/%{ghcdir}/%{pkgname}-%{version}/*.a
 %exclude %{_libdir}/%{ghcdir}/%{pkgname}-%{version}/*_p.a
 
