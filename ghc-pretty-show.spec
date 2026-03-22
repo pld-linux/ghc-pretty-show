@@ -14,17 +14,39 @@ Group:		Development/Languages
 Source0:	http://hackage.haskell.org/package/%{pkgname}-%{version}/%{pkgname}-%{version}.tar.gz
 # Source0-md5:	1d4c4c9c02c5865eb5ac30c29d9ffc4d
 URL:		http://hackage.haskell.org/package/pretty-show
-BuildRequires:	ghc >= 6.12.3
+BuildRequires:	ghc >= 7.4.1
+BuildRequires:	ghc-array >= 0.2
+BuildRequires:	ghc-array < 2
+BuildRequires:	ghc-base >= 4.5
+BuildRequires:	ghc-base < 5
+BuildRequires:	ghc-filepath
+BuildRequires:	ghc-ghc-prim
 BuildRequires:	ghc-haskell-lexer >= 1.1
+BuildRequires:	ghc-haskell-lexer < 2
 BuildRequires:	ghc-pretty >= 1
+BuildRequires:	ghc-pretty < 2
+BuildRequires:	ghc-text
 %if %{with prof}
-BuildRequires:	ghc-prof
+BuildRequires:	ghc-prof >= 7.4.1
+BuildRequires:	ghc-array-prof >= 0.2
+BuildRequires:	ghc-array-prof < 2
+BuildRequires:	ghc-base-prof >= 4.5
+BuildRequires:	ghc-base-prof < 5
+BuildRequires:	ghc-filepath-prof
+BuildRequires:	ghc-ghc-prim-prof
 BuildRequires:	ghc-haskell-lexer-prof >= 1.1
+BuildRequires:	ghc-haskell-lexer-prof < 2
 BuildRequires:	ghc-pretty-prof >= 1
+BuildRequires:	ghc-pretty-prof < 2
+BuildRequires:	ghc-text-prof
 %endif
+# build fails with happy 1.18.x
+BuildRequires:	happy >= 1.19
 BuildRequires:	rpmbuild(macros) >= 1.608
 %requires_eq	ghc
 Requires(post,postun):	/usr/bin/ghc-pkg
+Requires:	ghc-array >= 0.2
+Requires:	ghc-base >= 4.5
 Requires:	ghc-haskell-lexer >= 1.1
 Requires:	ghc-pretty >= 1
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -57,12 +79,14 @@ Summary:	Profiling %{pkgname} library for GHC
 Summary(pl.UTF-8):	Biblioteka profilująca %{pkgname} dla GHC
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
+Requires:	ghc-array-prof >= 0.2
+Requires:	ghc-base-prof >= 4.5
 Requires:	ghc-haskell-lexer-prof >= 1.1
 Requires:	ghc-pretty-prof >= 1
 
 %description prof
-Profiling %{pkgname} library for GHC.  Should be installed when
-GHC's profiling subsystem is needed.
+Profiling %{pkgname} library for GHC. Should be installed when GHC's
+profiling subsystem is needed.
 
 %description prof -l pl.UTF-8
 Biblioteka profilująca %{pkgname} dla GHC. Powinna być zainstalowana
@@ -80,6 +104,7 @@ runhaskell Setup.hs configure -v2 \
 	--docdir=%{_docdir}/%{name}-%{version}
 
 runhaskell Setup.hs build
+
 runhaskell Setup.hs haddock
 
 %install
@@ -90,8 +115,7 @@ runhaskell Setup.hs copy --destdir=$RPM_BUILD_ROOT
 
 # work around automatic haddock docs installation
 %{__rm} -rf %{name}-%{version}-doc
-cp -a $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version} %{name}-%{version}-doc
-%{__rm} -r $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}
+%{__mv} $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version} %{name}-%{version}-doc
 
 runhaskell Setup.hs register \
 	--gen-pkg-config=$RPM_BUILD_ROOT%{_libdir}/%{ghcdir}/package.conf.d/%{pkgname}.conf
@@ -111,7 +135,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/ppsh
 %{_libdir}/%{ghcdir}/package.conf.d/%{pkgname}.conf
 %dir %{_libdir}/%{ghcdir}/%{pkgname}-%{version}
-%attr(755,root,root) %{_libdir}/%{ghcdir}/%{pkgname}-%{version}/*.so
+%{_libdir}/%{ghcdir}/%{pkgname}-%{version}/*.so
 %{_libdir}/%{ghcdir}/%{pkgname}-%{version}/*.a
 %exclude %{_libdir}/%{ghcdir}/%{pkgname}-%{version}/*_p.a
 
